@@ -1,27 +1,33 @@
 package main
 
- 
 
 
-func createSnippet(w. ResponseWriter, r*http.Request) {
+import (
 
-    
+    "log"
 
-    if r.Method != http.MethodPost {
+    "net/http"
 
-        
-        
+)
 
-        w.WriteHeader(405)
 
-        w.Write([]byte("GET-Метод запрещен!"))
 
-        return
+func main() {
 
-    }
+    mux := http.NewServeMux()
 
- 
+    mux.HandleFunc("/", home)
 
-    w.Write([]byte("Создание новой заметки..."))
+    mux.HandleFunc("/snippet", showSnippet)
+
+    mux.HandleFunc("/snippet/create", createSnippet)
+
+
+
+    log.Println("Запуск сервера на http://127.0.0.1:4000")
+
+    err := http.ListenAndServe(":4000", mux)
+
+    log.Fatal(err)
 
 }
